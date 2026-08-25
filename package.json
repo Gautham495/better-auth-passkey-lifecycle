@@ -1,0 +1,66 @@
+{
+  "name": "better-auth-passkey-lifecycle",
+  "version": "1.0.0",
+  "description": "WebAuthn Signal API lifecycle sync for better-auth's passkey plugin. Deletes stale passkeys from iCloud Keychain / Google Password Manager / device credential stores when they're removed server-side.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gautham495/better-auth-passkey-lifecycle.git"
+  },
+  "homepage": "https://github.com/Gautham495/better-auth-passkey-lifecycle#readme",
+  "bugs": {
+    "url": "https://github.com/Gautham495/better-auth-passkey-lifecycle/issues"
+  },
+  "author": {
+    "name": "Gautham Vijayan",
+    "email": "kinggautham495@gmail.com",
+    "url": "https://gauthamvijay.com"
+  },
+  "peerDependencies": {
+    "@better-auth/passkey": ">=1.0.0",
+    "better-auth": ">=1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@better-auth/passkey": {
+      "optional": true
+    },
+    "better-auth": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "webauthn",
+    "passkey",
+    "signal-api",
+    "better-auth",
+    "credential-manager",
+    "icloud-keychain",
+    "google-password-manager"
+  ],
+  "license": "MIT"
+}

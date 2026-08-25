@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>better-auth-passkey-lifecycle — local test</title>
+  </head>
+  <body>
+    <h1>Signal API smoke test</h1>
+    <p>
+      Open the console. Buttons below call each helper against
+      <code>example.com</code>.
+    </p>
+
+    <button id="detect">Feature detect</button>
+    <button id="unknown">signalUnknownCredential</button>
+    <button id="accepted">signalAllAcceptedCredentials (with 1 id)</button>
+    <button id="accepted-empty">
+      signalAllAcceptedCredentials (empty — should be refused)
+    </button>
+    <button id="details">signalCurrentUserDetails</button>
+
+    <pre id="out"></pre>
+
+    <script type="module">
+      // Point this at your built dist. If you're running `tsup --watch`,
+      // this stays fresh across edits.
+      import {
+        signalUnknownCredential,
+        signalAllAcceptedCredentials,
+        signalCurrentUserDetails,
+        hasWebAuthn,
+        supportsSignalUnknownCredential,
+        supportsSignalAllAcceptedCredentials,
+        supportsSignalCurrentUserDetails,
+      } from "../dist/index.js";
+
+      const out = document.getElementById("out");
+      const log = (label, value) => {
+        const line = `${label}: ${JSON.stringify(value, null, 2)}`;
+        console.log(line);
+        out.textContent += line + "\n";
+      };
+
+      document.getElementById("detect").onclick = () => {
+        log("hasWebAuthn", hasWebAuthn());
+        log(
+          "supportsSignalUnknownCredential",
+          supportsSignalUnknownCredential(),
+        );
+        log(
+          "supportsSignalAllAcceptedCredentials",
+          supportsSignalAllAcceptedCredentials(),
+        );
+        log(
+          "supportsSignalCurrentUserDetails",
+          supportsSignalCurrentUserDetails(),
+        );
+      };
+
+      document.getElementById("unknown").onclick = async () => {
+        // Use a real credential id from a passkey you've registered against
+        // your test rp — this call is a no-op if the id isn't stored on the device.
+        log(
+          "signalUnknownCredential",
+          await signalUnknownCredential({
+            rpId: "localhost",
+            credentialId: "REPLACE_WITH_REAL_BASE64URL_ID",
+          }),
+        );
+      };
+
+      document.getElementById("accepted").onclick = async () => {
+        log(
+          "signalAllAcceptedCredentials",
+          await signalAllAcceptedCredentials({
+            rpId: "localhost",
+            userId: "testuser123",
+            allAcceptedCredentialIds: ["REPLACE_WITH_REAL_BASE64URL_ID"],
+          }),
+        );
+      };
+
+      document.getElementById("accepted-empty").onclick = async () => {
+        // Should return { signaled: false, reason: 'unsupported' } — empty-list guard.
+        log(
+          "signalAllAcceptedCredentials (empty)",
+          await signalAllAcceptedCredentials({
+            rpId: "localhost",
+            userId: "testuser123",
+            allAcceptedCredentialIds: [],
+          }),
+        );
+      };
+
+      document.getElementById("details").onclick = async () => {
+        log(
+          "signalCurrentUserDetails",
+          await signalCurrentUserDetails({
+            rpId: "localhost",
+            userId: "testuser123",
+            name: "test@example.com",
+            displayName: "Test User",
+          }),
+        );
+      };
+    </script>
+  </body>
+</html>

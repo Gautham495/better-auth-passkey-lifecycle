@@ -1,6 +1,6 @@
 {
   "name": "better-auth-passkey-lifecycle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "WebAuthn Signal API lifecycle sync for better-auth's passkey plugin. Deletes stale passkeys from iCloud Keychain / Google Password Manager / device credential stores when they're removed server-side.",
   "type": "module",
   "main": "./dist/index.cjs",

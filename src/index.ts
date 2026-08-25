@@ -24,21 +24,25 @@
  * @see https://www.corbado.com/blog/webauthn-signal-api
  */
 
-import { normalizeUserHandle } from './base64url';
+import { normalizeUserHandle } from "./base64url";
 import {
   getPKC,
   supportsSignalAllAcceptedCredentials,
   supportsSignalCurrentUserDetails,
   supportsSignalUnknownCredential,
-} from './support';
+} from "./support";
 
-export { normalizeUserHandle, isBase64Url, b64urlEncodeUtf8 } from './base64url';
+export {
+  normalizeUserHandle,
+  isBase64Url,
+  b64urlEncodeUtf8,
+} from "./base64url";
 export {
   hasWebAuthn,
   supportsSignalUnknownCredential,
   supportsSignalAllAcceptedCredentials,
   supportsSignalCurrentUserDetails,
-} from './support';
+} from "./support";
 
 /**
  * Result of any signal call. `signaled: false` means the browser did not
@@ -49,9 +53,9 @@ export {
  */
 export type SignalResult =
   | { signaled: true }
-  | { signaled: false; reason: 'unsupported' };
+  | { signaled: false; reason: "unsupported" };
 
-const UNSUPPORTED: SignalResult = { signaled: false, reason: 'unsupported' };
+const UNSUPPORTED: SignalResult = { signaled: false, reason: "unsupported" };
 const OK: SignalResult = { signaled: true };
 
 /* -------------------------------------------------------------------------- */
@@ -284,7 +288,7 @@ export const syncAcceptedCredentials = async (
     if (!res.data) return UNSUPPORTED;
     ids = res.data
       .map((row) => row.credentialID ?? row.credentialId ?? row.id)
-      .filter((x): x is string => typeof x === 'string' && x.length > 0);
+      .filter((x): x is string => typeof x === "string" && x.length > 0);
   } catch {
     // list-passkeys itself failed (network, auth, etc). Best-effort —
     // don't signal anything, because we don't have an authoritative list.

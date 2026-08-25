@@ -33,19 +33,19 @@ type SignalCapablePKC = typeof PublicKeyCredential & {
 
 /** Whether the runtime exposes `PublicKeyCredential` at all. */
 export const hasWebAuthn = (): boolean =>
-  typeof globalThis !== 'undefined' &&
-  typeof (globalThis as { PublicKeyCredential?: unknown }).PublicKeyCredential !==
-    'undefined';
+  typeof globalThis !== "undefined" &&
+  typeof (globalThis as { PublicKeyCredential?: unknown })
+    .PublicKeyCredential !== "undefined";
 
 /** `PublicKeyCredential` typed with optional Signal API members. */
 export const getPKC = (): SignalCapablePKC | null =>
   hasWebAuthn() ? (PublicKeyCredential as SignalCapablePKC) : null;
 
 export const supportsSignalUnknownCredential = (): boolean =>
-  typeof getPKC()?.signalUnknownCredential === 'function';
+  typeof getPKC()?.signalUnknownCredential === "function";
 
 export const supportsSignalAllAcceptedCredentials = (): boolean =>
-  typeof getPKC()?.signalAllAcceptedCredentials === 'function';
+  typeof getPKC()?.signalAllAcceptedCredentials === "function";
 
 export const supportsSignalCurrentUserDetails = (): boolean =>
-  typeof getPKC()?.signalCurrentUserDetails === 'function';
+  typeof getPKC()?.signalCurrentUserDetails === "function";

@@ -17,16 +17,22 @@ export const isBase64Url = (s: string): boolean =>
 /** Encode a UTF-8 string as unpadded base64url. */
 export const b64urlEncodeUtf8 = (input: string): string => {
   const bytes = new TextEncoder().encode(input);
-  let bin = '';
+  let bin = "";
   for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]!);
   const b64 =
-    typeof btoa === 'function'
+    typeof btoa === "function"
       ? btoa(bin)
       : // Node fallback (SSR).
-        (globalThis as { Buffer?: { from(s: string, e: string): { toString(e: string): string } } })
-          .Buffer!.from(bin, 'binary')
-          .toString('base64');
-  return b64.replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_');
+        (
+          globalThis as {
+            Buffer?: {
+              from(s: string, e: string): { toString(e: string): string };
+            };
+          }
+        )
+          .Buffer!.from(bin, "binary")
+          .toString("base64");
+  return b64.replace(/=+$/, "").replace(/\+/g, "-").replace(/\//g, "_");
 };
 
 /**
